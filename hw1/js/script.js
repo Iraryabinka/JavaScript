@@ -10,25 +10,25 @@ const validPassword = 'Добро пожаловать!';
 //const enterPassword = 'Please enter your password:'
 
 let enterLogin = prompt('Please enter your login:');
-let enterPassword = prompt('Please enter your password:');
+let enterPassword = 'Please enter your password:';
 
-if (enterLogin === 'adminLogin') {
+if (enterLogin === adminLogin) {
     let enterPassword = prompt('Please enter your password:');
 
-  if (enterPassword === 'adminPassword') {
+  if (enterPassword === adminPassword) {
         alert(validPassword)
     
     } else if (enterPassword === null) {
         alert(userCancel);
     
-    } else if (enterPassword !== 'adminLogin') {
+    } else if (enterPassword !== adminLogin) {
         alert(wrongPassword);
     }
 
 } else if (enterLogin === null) {
     alert(userCancel);
 
-} else if (enterLogin !== 'adminLogin') {
+} else if (enterLogin !== adminLogin) {
     alert(wrongLogin);
 }
 
