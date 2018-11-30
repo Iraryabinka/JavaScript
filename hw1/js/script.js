@@ -7,7 +7,6 @@ const userCancel = 'Отменено пользователем!';
 const wrongLogin = 'Доступ запрещен, неверный логин!';
 const wrongPassword = 'Доступ запрещен, неверный пароль!';
 const validPassword = 'Добро пожаловать!';
-//const enterPassword = 'Please enter your password:'
 
 let enterLogin = prompt('Please enter your login:');
 let enterPassword = 'Please enter your password:';
