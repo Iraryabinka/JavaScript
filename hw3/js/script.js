@@ -21,13 +21,19 @@ const isLoginUnique = function(allLogins, login) {
 console.log(logins.includes(login));
 
 const addLogin = function(allLogins, login) {
-if (isLoginValid (false)) {
+if (isLoginValid() === false) {
   return alert('Ошибка! Логин должен быть от 4 до 16 символов');
-} else if (isLoginValid ('true'))
 
-return alert('Логин успешно добавлен!');
+} else if (isLoginValid() === true) {
+  if (isLoginUnique() === true) {
+    return alert('Такой логин уже используется!');
+
+  } else if (isLoginUnique() === false){
+    logins.push(login)
+    return alert('Логин успешно добавлен!');
+  }
+}
 };
-
 
 
 //Вызовы функции для проверки
