@@ -1,19 +1,26 @@
 'use strict';   
 
-var numbers = [];
+/*
+  Попросить пользователя ввести произвольную строку
+  и записать ее в переменную string
+  
+  PS: для перебора массива используте цикл for или for...of
+*/
 
-while (true) {
+let string;
+let arr;
 
-  var value = prompt("Введите число", 0);
+// Разбить строку в массив, пусть разделителем будет пробел, и записать в переменную arr
+console.log();
 
-  if (value === "" || value === null || isNaN(value)) break;
+// Вывести в консоли общую длину массива arr
+console.log();
 
-  numbers.push(+value);
-}
+// Используя цикл, вывести в консоль все индексы массива arr
+console.log();
 
-var sum = 0;
-for (var i = 0; i < numbers.length; i++) {
-  sum += numbers[i];
-}
+// Используя цикл, вывести в консоль все элементы массива arr
+console.log();
 
-alert( sum );
+// Используя цикл, bывести в консоли все пары индекс:значение массива arr
+console.log();

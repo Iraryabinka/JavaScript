@@ -25,4 +25,3 @@ console.log(total);
 
 alert(`Общая сумма чисел равна ${total}`); 
 
-
