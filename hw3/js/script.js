@@ -14,23 +14,24 @@ const isLoginValid = function(login) {
 console.log(isLoginValid(login));
 
 const isLoginUnique = function(allLogins, login) {
-  return (allLogins = logins.includes(login));
+  return logins.includes(login);
 };
 
 console.log(logins.includes(login));
 
 const addLogin = function(allLogins, login) {
+  
   if (isLoginValid(login) === false) {
-    return alert(arrorLog);
+    return console.log(arrorLog);
 
   } else {
 
     if (isLoginUnique(allLogins, login) === true) {
-      return alert(twiceAdded);
-
+      return console.log(twiceAdded);
     } else {
+      
       logins.push(login);
-      return alert(succesAdded);
+      return console.log(succesAdded);
     }
   }
 };
