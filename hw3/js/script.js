@@ -5,8 +5,6 @@ const arrorLog = 'Ошибка! Логин должен быть от 4 до 16 
 
 const logins = ['Mango', 'robotGoogles', 'Poly', 'Aj4x1sBozz', 'qwerty123'];
 
-let login = prompt('Введите пароль');
-
 const isLoginValid = function(login) {
   return login.length < 4 || login.length > 16 ? false : true;
 };
@@ -20,16 +18,12 @@ const isLoginUnique = function(allLogins, login) {
 console.log(logins.includes(login));
 
 const addLogin = function(allLogins, login) {
-  
   if (isLoginValid(login) === false) {
     return console.log(arrorLog);
-
   } else {
-
     if (isLoginUnique(allLogins, login) === true) {
       return console.log(twiceAdded);
     } else {
-      
       logins.push(login);
       return console.log(succesAdded);
     }
