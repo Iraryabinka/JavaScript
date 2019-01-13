@@ -71,9 +71,10 @@ const notepad = {
         .includes(query.toLowerCase());
 
        if (hasQueryInTitle || hasQueryInBody) {
-        return filteredNotes.push(note);
+        filteredNotes.push(note);
       }
     }
+    return filteredNotes;
   },
 
   filterNotesByPriority(priority) {
@@ -86,7 +87,6 @@ const notepad = {
    }
    return filtredByPriorityNotes;
  }
-
 };
 
 /*
@@ -158,7 +158,7 @@ console.log(
  */
 console.log(
   'Отфильтровали заметки по ключевому слову "javascript": ',
-  notepad.filterNotesByQuery('Javascript'),
+  notepad.filterNotesByQuery('javascript'),
 );
 
 /*
