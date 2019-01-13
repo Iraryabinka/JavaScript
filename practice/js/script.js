@@ -16,7 +16,6 @@ console.log( checkNumberType(3) ); // 'Odd'
 
 console.log( checkNumberType(17) ); // 'Odd'*/
 
-
 /*
   Напишите функцию formatString(str)
   
@@ -26,7 +25,6 @@ console.log( checkNumberType(17) ); // 'Odd'*/
     символов и добавляет в конец строки троеточие '...', после чего 
     возвращает укороченную версию.
 */
-
 
 /*const formatString = function(str) {
 if (str.length <= 40) {
@@ -53,8 +51,7 @@ console.log(
     formatString("Nunc sed turpis. Curabitur a felis in nunc fringilla tristique.")
   ); // вернется форматированная строка*/
 
-
-  /*
+/*
   Напишите функцию checkForSpam(str)
   
   Функция принимает 1 параметр str - строку,
@@ -66,23 +63,63 @@ console.log(
   PS: слова могут быть в произвольном регистре
 */
 
-const checkForSpam = function(str) {
-    checkForSpam.join(' ');
-    str.toLowerCase(str);
-console.log(str);
-    if (str.includes('sale', 'spam')) {
-        return true;
-    } else {
-        return false;
-    }
+/*const checkForSpam = function(str) {
+
+const newStr = str.toLowerCase();
+
+  console.log(newStr);
+
+  if (newStr.includes('sale')) {
+    return true;
+  } else if (newStr.includes('spam')){
+    return true;
+  } else {
+      return false;
+  }
+};
+
+// Вызовы функции для проверки
+console.log(checkForSpam('Latest technology news')); // false
+
+console.log(checkForSpam('JavaScript weekly newsletter')); // false
+
+console.log(checkForSpam('Get best sale offers now!')); // true
+
+console.log(checkForSpam('[SPAM] How to earn fast money?')); // true*/
+
+
+/*  
+  Написать функцию, getPx(str) 
+
+  Функция getPx должна получать строку вида '10px',
+  проверять была ли передана строка, если да, 
+  возвращать только числовую составляющую, к примеру 10.
+    
+  Если была передана не строка, функция возвращает null.
+*/
+
+/*const getPx = function(str) {
+
+ if (typeof str === '') {
+     return Number.parseFloat(getPx()) ;
+ } else {
+     return null;
+ }
+
 }
 
 // Вызовы функции для проверки
-console.log( checkForSpam('Latest technology news') ); // false
+console.log( getPx("10px") === 10 ); // должно быть:  true
+console.log( getPx("10.5") === 10.5 ); // должно быть:  true
+console.log( getPx("0") === 0 ); // должно быть:  true
+console.log( getPx(-1) ); // должно быть:  null
+console.log( getPx(10) ); // должно быть:  null*/
 
-console.log( checkForSpam('JavaScript weekly newsletter') ); // false
 
-console.log( checkForSpam('Get best sale offers now!') ); // true
+const iterable = 'javascript';
 
-console.log( checkForSpam('[SPAM] How to earn fast money?') ); // true
-  
+for (const value of iterable) {
+  console.log(value);
+}
+
+
