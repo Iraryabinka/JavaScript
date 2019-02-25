@@ -14,9 +14,9 @@ const PRIORITY_TYPES = {
 };
 
 const Notepad = function Notepad(notes = []) {
-
+ 
   this.getNotes = function getNotes() {
-    return this.notes;
+    return initialNotes;
   },
 
     this.findNoteById = function findNoteById(id) {
