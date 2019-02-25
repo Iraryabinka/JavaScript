@@ -13,14 +13,14 @@ const PRIORITY_TYPES = {
   HIGH: 2,
 };
 
-const Notepad = function Notepad(notes = []) {
-  const notepad = {
-    notes: [],
-    getNotes() {
+
+const Notepad = function Notepad(initialNotes = []) {
+  
+    this.getNotes = function getNotes() {
       return this.notes;
     },
   
-    findNoteById(id) {
+    this.findNoteById = function findNoteById(id) {
       for (const note of this.notes) {
         if (note.id === id) {
           return note;
@@ -28,11 +28,11 @@ const Notepad = function Notepad(notes = []) {
       }
     },
   
-    saveNote(note) {
+    this.saveNote = function saveNote(note) {
       this.notes.push(note);
     },
   
-    deleteNote(id) {
+    this.deleteNote = function deleteNote(id) {
       for (let i = 0; i < this.notes.length; i += 1) {
         const note = this.notes[i];
   
@@ -43,7 +43,7 @@ const Notepad = function Notepad(notes = []) {
       }
     },
   
-    updateNoteContent(id, { field, value }) {
+    this.updateNoteContent = function updateNoteContent(id, { field, value }) {
       const note = this.findNoteById(id);
   
       if (!note) return;
@@ -51,7 +51,7 @@ const Notepad = function Notepad(notes = []) {
       note[field] = value;
     },
   
-    updateNotePriority(id, priority) {
+    this.updateNotePriority = function updateNotePriority(id, priority) {
       const note = this.findNoteById(id);
   
       if (!note) return;
@@ -59,7 +59,7 @@ const Notepad = function Notepad(notes = []) {
       note.priority = priority;
     },
   
-    filterNotesByQuery(query) {
+    this.filterNotesByQuery = function filterNotesByQuery(query) {
       const filteredNotes = [];
   
       for (const note of this.notes) {
@@ -78,7 +78,7 @@ const Notepad = function Notepad(notes = []) {
       return filteredNotes;
     },
   
-    filterNotesByPriority(priority) {
+    this.filterNotesByPriority = function filterNotesByPriority(priority) {
       const filtredByPriorityNotes = [];
   
      for (const note of this.notes) {
@@ -89,7 +89,8 @@ const Notepad = function Notepad(notes = []) {
      return filtredByPriorityNotes;
    }
   };
-};
+
+  const notepad = new Notepad();
 
 Notepad.PRIORITIES = {
   0: { id: 0, value: 0, name: 'Low' },
@@ -97,17 +98,9 @@ Notepad.PRIORITIES = {
   2: { id: 2, value: 2, name: 'High' },
 };
 
-
-
 Notepad.getPriorityName = function getPriorityName(priorityId) {
   
 };
-
-
-
-
-
-
 
 
 const initialNotes = [
@@ -129,12 +122,12 @@ const initialNotes = [
 
 /*
  * Посмотрим имя приоритета по id
- 
+ */
 console.log(Notepad.getPriorityName(PRIORITY_TYPES.LOW)); // "Low"
 console.log(Notepad.getPriorityName(PRIORITY_TYPES.NORMAL)); // "Normal"
 console.log(Notepad.getPriorityName(PRIORITY_TYPES.HIGH)); // "High"
 
-const notepad = new Notepad(initialNotes);*/
+const notepad = new Notepad(initialNotes);
 
 /*
   Смотрю что у меня в заметках после инициализации

@@ -116,10 +116,76 @@ console.log( getPx(-1) ); // должно быть:  null
 console.log( getPx(10) ); // должно быть:  null*/
 
 
-const iterable = 'javascript';
+/*  Практика 4 модуль
+  Напишите скрипт, который, для объекта user, последовательно: 
+  
+    - добавляет поле mood со значением 'happy'
+    
+    - заменяет значение hobby на 'javascript'
+    
+    - удаляет свойство premium
+    
+    - выводит содержимое объекта user в формате ключ:значение 
+      используя цикл for...in
+    
+    - выводит содержимое объекта user в формате ключ:значение 
+      используя Object.keys и for...of
+    
+    - выводит содержимое объекта user в формате ключ:значение 
+      используя Object.entries и for...of
 
-for (const value of iterable) {
-  console.log(value);
+
+const user = {
+  name: "Mango",
+  age: 20,
+  hobby: "html",
+  premium: true
+};
+
+user.mood = 'happy';
+user.hobby = 'javaskript';
+delete user.premium;
+
+//for (const key in user) {
+ // console.log(user)
+//}
+
+const keys = Object.keys(user);
+
+for (const key of keys) {
+  console.log('Keys: ', user[key], )
 }
 
 
+const entries = Object.entries(user);
+
+for (const entry of entries) {
+  const key = entry[0];
+  const value = entry[1];
+  console.log(`${key}: ${value}`)
+}
+
+console.log(user)*/
+
+
+/*
+  Напиште скрипт который определит и выведет в консоль 
+  имя сотрудника который выполнил больше всех задач.
+
+  Сотрудники и кол-во выполненых задач содержатся 
+  как свойства объекта в формате "имя":"кол-во задач"
+*/
+
+const tasksCompleted = {
+  ann: 29,
+  david: 35,
+  helen: 1,
+  lorence: 99
+};
+
+const entries = Object.entries(tasksCompleted);
+
+const bestUser = Math.max.apply(Math, entries);
+
+console.log(entries);
+console.log(bestUser);
