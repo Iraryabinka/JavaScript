@@ -13,8 +13,10 @@ const PRIORITY_TYPES = {
   HIGH: 2,
 };
 
-const Notepad = function Notepad(notes = []) {
- 
+
+const Notepad = function Notepad() {
+  this.notes = [];
+  
   this.getNotes = function getNotes() {
     return initialNotes;
   },
