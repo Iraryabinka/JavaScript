@@ -13,13 +13,12 @@ const PRIORITY_TYPES = {
   HIGH: 2,
 };
 
+const Notepad = function Notepad(notes = []) {
 
-const Notepad = function Notepad(initialNotes = []) {
-  
-    this.getNotes = function getNotes() {
-      return this.notes;
-    },
-  
+  this.getNotes = function getNotes() {
+    return this.notes;
+  },
+
     this.findNoteById = function findNoteById(id) {
       for (const note of this.notes) {
         if (note.id === id) {
@@ -27,70 +26,68 @@ const Notepad = function Notepad(initialNotes = []) {
         }
       }
     },
-  
+
     this.saveNote = function saveNote(note) {
       this.notes.push(note);
     },
-  
+
     this.deleteNote = function deleteNote(id) {
       for (let i = 0; i < this.notes.length; i += 1) {
         const note = this.notes[i];
-  
+
         if (note.id === id) {
           this.notes.splice(i, 1);
           return;
         }
       }
     },
-  
+
     this.updateNoteContent = function updateNoteContent(id, { field, value }) {
       const note = this.findNoteById(id);
-  
+
       if (!note) return;
-  
+
       note[field] = value;
     },
-  
+
     this.updateNotePriority = function updateNotePriority(id, priority) {
       const note = this.findNoteById(id);
-  
+
       if (!note) return;
-  
+
       note.priority = priority;
     },
-  
+
     this.filterNotesByQuery = function filterNotesByQuery(query) {
       const filteredNotes = [];
-  
+
       for (const note of this.notes) {
         const hasQueryInTitle = note.title
           .toLowerCase()
           .includes(query.toLowerCase());
-  
+
         const hasQueryInBody = note.body
           .toLowerCase()
           .includes(query.toLowerCase());
-  
-         if (hasQueryInTitle || hasQueryInBody) {
+
+        if (hasQueryInTitle || hasQueryInBody) {
           filteredNotes.push(note);
         }
       }
       return filteredNotes;
     },
-  
+
     this.filterNotesByPriority = function filterNotesByPriority(priority) {
       const filtredByPriorityNotes = [];
-  
-     for (const note of this.notes) {
-       if (note.priority === priority) {
-         filtredByPriorityNotes.push(note);
-       }
-     }
-     return filtredByPriorityNotes;
-   }
-  };
 
-  const notepad = new Notepad();
+      for (const note of this.notes) {
+        if (note.priority === priority) {
+          filtredByPriorityNotes.push(note);
+        }
+      }
+      return filtredByPriorityNotes;
+    };
+};
 
 Notepad.PRIORITIES = {
   0: { id: 0, value: 0, name: 'Low' },
@@ -99,9 +96,8 @@ Notepad.PRIORITIES = {
 };
 
 Notepad.getPriorityName = function getPriorityName(priorityId) {
-  
+  return Notepad.PRIORITIES[priorityId].name;
 };
-
 
 const initialNotes = [
   {
