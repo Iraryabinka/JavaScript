@@ -15,11 +15,7 @@ const PRIORITY_TYPES = {
 
 
 class Notepad {
-constructor({id, title, body, priority, notes}) {
-  this._id = id;
-  this._title = title;
-  this._body = body;
-  this._priority = priority;
+constructor({notes}) {
   this._notes = [];
 }
 
