@@ -14,26 +14,32 @@ const PRIORITY_TYPES = {
 };
 
 
-const Notepad = function Notepad() {
-  this.notes = [];
+class Notepad {
+constructor({id, title, body, priority}) {
+  this._id = id;
+  this._title = title;
+  this._body = body;
+  this._priority = priority;
+  this._notes = [];
+}
 
-  this.getNotes = function() {
-    return this.notes;
-  },
+  get notes() {
+    return this._notes;
+  }
 
-    this.findNoteById = function(id) {
+  findNoteById(id) {
       for (const note of this.notes) {
         if (note.id === id) {
           return note;
         }
       }
-    },
+    }
 
-    this.saveNote = function(note) {
+   saveNote(note) {
       this.notes.push(note);
-    },
+    }
 
-    this.deleteNote = function(id) {
+    deleteNote(id) {
       for (let i = 0; i < this.notes.length; i += 1) {
         const note = this.notes[i];
 
@@ -42,25 +48,25 @@ const Notepad = function Notepad() {
           return;
         }
       }
-    },
+    }
 
-    this.updateNoteContent = function(id, { field, value }) {
+    updateNoteContent(id, { field, value }) {
       const note = this.findNoteById(id);
 
       if (!note) return;
 
       note[field] = value;
-    },
+    }
 
-    this.updateNotePriority = function(id, priority) {
+    updateNotePriority(id, priority) {
       const note = this.findNoteById(id);
 
       if (!note) return;
 
       note.priority = priority;
-    },
+    }
 
-    this.filterNotesByQuery = function(query) {
+    filterNotesByQuery(query) {
       const filteredNotes = [];
 
       for (const note of this.notes) {
@@ -77,9 +83,9 @@ const Notepad = function Notepad() {
         }
       }
       return filteredNotes;
-    },
+    }
 
-    this.filterNotesByPriority = function(priority) {
+    filterNotesByPriority(priority) {
       const filtredByPriorityNotes = [];
 
       for (const note of this.notes) {
@@ -103,14 +109,14 @@ Notepad.getPriorityName = function getPriorityName(priorityId) {
 
 const initialNotes = [
   {
-    id: 1,
+    id: 'id-1',
     title: 'JavaScript essentials',
     body:
       'Get comfortable with all basic JavaScript concepts: variables, loops, arrays, branching, objects, functions, scopes, prototypes etc',
     priority: PRIORITY_TYPES.HIGH,
   },
   {
-    id: 2,
+    id: 'id-2',
     title: 'Refresh HTML and CSS',
     body:
       'Need to refresh HTML and CSS concepts, after learning some JavaScript. Maybe get to know CSS Grid and PostCSS, they seem to be trending.',
@@ -130,13 +136,13 @@ const notepad = new Notepad(initialNotes);
 /*
   Смотрю что у меня в заметках после инициализации
 */
-console.log('Все текущие заметки: ', notepad.getNotes());
+console.log('Все текущие заметки: ', notepad.notes);
 
 /*
  * Добавляю еще 2 заметки и смотрю что получилось
  */
 notepad.saveNote({
-  id: 3,
+  id: 'id-3',
   title: 'Get comfy with Frontend frameworks',
   body:
     'First must get some general knowledge about frameworks, then maybe try each one for a week or so. Need to choose between React, Vue and Angular, by reading articles and watching videos.',
@@ -144,32 +150,28 @@ notepad.saveNote({
 });
 
 notepad.saveNote({
-  id: 4,
+  id: 'id-4',
   title: 'Winter clothes',
   body:
     "Winter is coming! Need some really warm clothes: shoes, sweater, hat, jacket, scarf etc. Maybe should get a set of sportwear as well so I'll be able to do some excercises in the park.",
   priority: PRIORITY_TYPES.LOW,
 });
 
-console.log('Все текущие заметки: ', notepad.getNotes());
+console.log('Все текущие заметки: ', notepad.notes);
 
 /*
- *  Зима уже близко, пора поднять приоритет на покупку одежды
+ * Зима уже близко, пора поднять приоритет на покупку одежды
  */
-notepad.updateNotePriority(4, PRIORITY_TYPES.NORMAL);
-console.log(
-  'Заметки после обновления приоритета для id 4: ',
-  notepad.getNotes(),
-);
+notepad.updateNotePriority('id-4', PRIORITY_TYPES.NORMAL);
+
+console.log('Заметки после обновления приоритета для id-4: ', notepad.notes);
 
 /*
  * Решил что фреймворки отложу немного, понижаю приоритет
  */
-notepad.updateNotePriority(3, PRIORITY_TYPES.LOW);
-console.log(
-  'Заметки после обновления приоритета для id 3: ',
-  notepad.getNotes(),
-);
+notepad.updateNotePriority('id-3', PRIORITY_TYPES.LOW);
+
+console.log('Заметки после обновления приоритета для id-3: ', notepad.notes);
 
 /*
  * Решил отфильтровать заметки по слову html
@@ -196,16 +198,19 @@ console.log(
 );
 
 /*
- * Обновим контент заметки с id 3
+ * Обновим контент заметки с id-3
  */
-notepad.updateNoteContent(3, { title: 'Get comfy with React.js or Vue.js' });
+notepad.updateNoteContent('id-3', {
+  title: 'Get comfy with React.js or Vue.js',
+});
+
 console.log(
-  'Заметки после обновления контента заметки с id 3: ',
-  notepad.getNotes(),
+  'Заметки после обновления контента заметки с id-3: ',
+  notepad.notes,
 );
 
 /*
- * Повторил HTML и CSS, удаляю запись c id 2
+ * Повторил HTML и CSS, удаляю запись c id-2
  */
-notepad.deleteNote(2);
-console.log('Заметки после удаления с id 2: ', notepad.getNotes());
+notepad.deleteNote('id-2');
+console.log('Заметки после удаления с id -2: ', notepad.notes);
