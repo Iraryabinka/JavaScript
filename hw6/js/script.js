@@ -15,7 +15,7 @@ const PRIORITY_TYPES = {
 
 
 class Notepad {
-constructor({id, title, body, priority}) {
+constructor({id, title, body, priority, notes}) {
   this._id = id;
   this._title = title;
   this._body = body;
@@ -27,8 +27,12 @@ constructor({id, title, body, priority}) {
     return this._notes;
   }
 
+   static getPriorityName(priorityId) {
+    return Notepad.PRIORITIES[priorityId].name;
+  };
+
   findNoteById(id) {
-      for (const note of this.notes) {
+      for (const note of this._notes) {
         if (note.id === id) {
           return note;
         }
@@ -37,11 +41,12 @@ constructor({id, title, body, priority}) {
 
    saveNote(note) {
       this.notes.push(note);
+  
     }
 
     deleteNote(id) {
       for (let i = 0; i < this.notes.length; i += 1) {
-        const note = this.notes[i];
+        const note = this._notes[i];
 
         if (note.id === id) {
           this.notes.splice(i, 1);
@@ -69,7 +74,7 @@ constructor({id, title, body, priority}) {
     filterNotesByQuery(query) {
       const filteredNotes = [];
 
-      for (const note of this.notes) {
+      for (const note of this._notes) {
         const hasQueryInTitle = note.title
           .toLowerCase()
           .includes(query.toLowerCase());
@@ -88,7 +93,7 @@ constructor({id, title, body, priority}) {
     filterNotesByPriority(priority) {
       const filtredByPriorityNotes = [];
 
-      for (const note of this.notes) {
+      for (const note of this._notes) {
         if (note.priority === priority) {
           filtredByPriorityNotes.push(note);
         }
@@ -103,9 +108,7 @@ Notepad.PRIORITIES = {
   2: { id: 2, value: 2, name: 'High' },
 };
 
-Notepad.getPriorityName = function getPriorityName(priorityId) {
-  return Notepad.PRIORITIES[priorityId].name;
-};
+
 
 const initialNotes = [
   {
