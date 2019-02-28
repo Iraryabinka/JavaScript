@@ -176,16 +176,19 @@ console.log(user)*/
   как свойства объекта в формате "имя":"кол-во задач"
 */
 
-const tasksCompleted = {
-  ann: 29,
-  david: 35,
-  helen: 1,
-  lorence: 99
-};
+const tweets = [
+  { id: '000', likes: 5, tags: ['js', 'nodejs'] },
+  { id: '001', likes: 2, tags: ['html', 'css'] },
+  { id: '002', likes: 17, tags: ['html', 'js', 'nodejs'] },
+  { id: '003', likes: 8, tags: ['css', 'react'] },
+  { id: '004', likes: 0, tags: ['js', 'nodejs', 'react'] },
+];
 
-const entries = Object.entries(tasksCompleted);
+const getTags = tweets =>
+  tweets.reduce((allTags, tweet) => {
+    allTags.push(...tweet.tags);
 
-const bestUser = Math.max.apply(Math, entries);
+    return allTags;
+  }, []);
 
-console.log(entries);
-console.log(bestUser);
+console.log(getTags(tweets));

@@ -91,7 +91,7 @@ const getAllNames = users => {
   return users.map(user => user.name);
 };
 
-console.log(getAllNames(users));
+console.table(getAllNames(users));
 // [ 'Moore Hensley', 'Sharlene Bush', 'Ross Vazquez', 'Elma Head', 'Carey Barr', 'Blackburn Dotson', 'Sheree Anthony' ]
 
 const getUsersByEyeColor = (users, color) => {
@@ -120,7 +120,7 @@ console.log(getUserByEmail(users, 'shereeanthony@kog.com')); // {объект п
 console.log(getUserByEmail(users, 'elmahead@omatom.com')); // {объект пользователя Elma Head}
 
 const getUsersWithAge = (users, min, max) => {
-  return users.filter(user => user.age >= min <= max)
+  return users.filter(user => user.age >= min && user.age <= max)
 };
 
 console.log(getUsersWithAge(users, 20, 30)); // [объект Ross Vazquez, объект Elma Head, объект Carey Barr]
@@ -135,7 +135,7 @@ const getTotalBalance = users.reduce((totalBalance, user) => {
 console.log(getTotalBalance); // 20916
 
 const getUsersByFriend = (users, name) => {
-return users.filter(user => user.friends).map(user => user.name)
+  return getAllNames(users.filter(user => user.friends.includes(name)));
 };
 
 console.log(getUsersByFriend(users, 'Briana Decker')); // [ 'Sharlene Bush', 'Sheree Anthony' ]
