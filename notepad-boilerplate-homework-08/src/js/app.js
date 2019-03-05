@@ -161,7 +161,6 @@ const createListItem = ({id, title, body, priority}) => {
   noteContant.appendChild(noteBody);
 
 
-
   const noteFooter = document.createElement('footer');
   noteFooter.classList.add('note__footer');
 
@@ -170,21 +169,25 @@ const createListItem = ({id, title, body, priority}) => {
 
   const moreButton = document.createElement('button');
   moreButton.classList.add('action');
+  //moreButton.textContent = 'expand_more';
+  moreButton.dataset.action = NOTE_ACTIONS.DECREASE_PRIORITY;
 
   const moreMaterialIcons = document.createElement('i');
-  moreMaterialIcons.classList('material-icons');
+  moreMaterialIcons.classList.add('material-icons');
   moreMaterialIcons.textContent = ICON_TYPES.ARROW_DOWN;
 
   const lessButton = document.createElement('button');
   lessButton.classList.add('action');
+  //lessButton.textContent = 'expand_less';
+  lessButton.dataset.action = NOTE_ACTIONS.INCREASE_PRIORITY;
 
   const lessMaterialIcons = document.createElement('i');
-  lessMaterialIcons.classList('material-icons');
+  lessMaterialIcons.classList.add('material-icons');
   lessMaterialIcons.textContent = ICON_TYPES.ARROW_UP;
 
   const notePriority = document.createElement('span');
   notePriority.classList.add('note__priority');
-  notePriority.textContent = 'Priority: Low';
+  //notePriority.textContent = 'Priority: Low';
 
   listItem.appendChild(noteFooter);
   noteFooter.appendChild(noteSection);
@@ -195,27 +198,36 @@ const createListItem = ({id, title, body, priority}) => {
 
   console.log(listItem)
 
-  //const footerNoteSection = document.createElement('section');
-  //footerNoteSection.classList.add('note__section');
+  const footerNoteSection = document.createElement('section');
+  footerNoteSection.classList.add('note__section');
 
-  //const editButton = document.createElement('button');
-  //editButton.classList.add('action');
+  const editButton = document.createElement('button');
+  editButton.classList.add('action');
+  //editButton.textContent = 'edit';
+  editButton.dataset.action = NOTE_ACTIONS.EDIT;
 
-  /*const editMaterialIcons = document.createElement('i');
-  footerMaterialIcons.classList('material-icons');
-  footerMaterialIcons.textContent = 'edit';*/
+  const editMaterialIcons = document.createElement('i');
+  editMaterialIcons.classList.add('material-icons');
+  editMaterialIcons.textContent = ICON_TYPES.EDIT;
 
-  //const deleteButton = document.createElement('button');
-  //deleteButton.classList.add('action');
+  const deleteButton = document.createElement('button');
+  deleteButton.classList.add('action');
+  //deleteButton.textContent = 'delete';
+  deleteButton.dataset.action = NOTE_ACTIONS.DELETE;
 
-  /*const deleteMaterialIcons = document.createElement('i');
-  materialIcons.classList('material-icons');
-  materialIcons.textContent = 'delete';*/
+  const deleteMaterialIcons = document.createElement('i');
+  deleteMaterialIcons.classList.add('material-icons');
+  deleteMaterialIcons.textContent = ICON_TYPES.DELETE;
+
+  noteContainer.appendChild(noteFooter);
+  noteFooter.appendChild(footerNoteSection);
+  footerNoteSection.appendChild(editButton);
+  editButton.appendChild(editMaterialIcons);
+  footerNoteSection.appendChild(deleteButton);
+  deleteButton.appendChild(deleteMaterialIcons);
 
   return listItem;
 };
-
-
 
 
 const renderNoteList = (listRef, notes) => {
