@@ -20,6 +20,7 @@ const NOTE_ACTIONS = {
   DECREASE_PRIORITY: 'decrease-priority',
 };
 
+
 const initialNotes = [
   {
     id: 'id-1',
@@ -62,6 +63,7 @@ class Notepad {
 
   static getPriorityName(priorityId) {
     return Notepad.PRIORITIES[priorityId].name;
+
   }
 
   findNoteById(id) {
@@ -134,9 +136,15 @@ class Notepad {
   }
 }
 
+Notepad.PRIORITIES = {
+  0: { id: 0, value: 0, name: 'Low' },
+  1: { id: 1, value: 1, name: 'Normal' },
+  2: { id: 2, value: 2, name: 'High' },
+};
+
 const list = document.querySelector('.note-list');
 
-const createListItem = ({id, title, body, priority}) => {
+const createListItem = ({id, title, body, priority, note}) => {
   const listItem = document.createElement('li');
   listItem.classList.add('note-list__item');
   listItem.dataset.id = id;
@@ -187,7 +195,7 @@ const createListItem = ({id, title, body, priority}) => {
 
   const notePriority = document.createElement('span');
   notePriority.classList.add('note__priority');
-  //notePriority.textContent = 'Priority: Low';
+  notePriority.textContent = Notepad.getPriorityName(`${id.priority}`);
 
   listItem.appendChild(noteFooter);
   noteFooter.appendChild(noteSection);
@@ -195,6 +203,7 @@ const createListItem = ({id, title, body, priority}) => {
   moreButton.appendChild(moreMaterialIcons);
   noteSection.appendChild(lessButton);
   lessButton.appendChild(lessMaterialIcons);
+  noteSection.appendChild(notePriority);
 
   console.log(listItem)
 
