@@ -186,7 +186,7 @@ const createListItem = ({id, title, body, priority, note}) => {
 
   const notePriority = document.createElement('span');
   notePriority.classList.add('note__priority');
-  notePriority.textContent = notePriority.textContent = priority;
+  notePriority.textContent = `Priority: ${Notepad.getPriorityName(priority)}`
 
   const footerNoteSection = document.createElement('section');
   footerNoteSection.classList.add('note__section');
