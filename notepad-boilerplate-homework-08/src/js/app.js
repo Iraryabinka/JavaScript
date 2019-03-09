@@ -20,7 +20,6 @@ const NOTE_ACTIONS = {
   DECREASE_PRIORITY: 'decrease-priority',
 };
 
-
 const initialNotes = [
   {
     id: 'id-1',
@@ -52,15 +51,46 @@ const initialNotes = [
   },
 ];
 
-
 class Notepad {
-
   constructor({ notes }) {
     this._notes = [];
+  }
+  static getPriorityName(priorityId) {
+    return Notepad.PRIORITIES[priorityId].name;
   }
 
   get notes() {
     return this._notes;
+  }
+
+  static generateUniqueId = () =>
+    Math.random()
+      .toString(36)
+      .substring(2, 15) +
+    Math.random()
+      .toString(36)
+      .substring(2, 15);
+
+  save(text) {
+    const newNote = {
+      id: Notepad.generateUniqueId(),
+      title: text,
+      body: text,
+    };
+
+    this._notes.push(newNote);
+
+    return newNote;
+  }
+  filter(query = '') {
+    return this._notes.filter(note =>
+      note.body.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+  filter(query = '') {
+    return this._notes.filter(note =>
+      note.title.toLowerCase().includes(query.toLowerCase())
+    );
   }
 
   findNoteById(id) {
@@ -125,10 +155,6 @@ class Notepad {
     }
     return filtredByPriorityNotes;
   }
-
-  static getPriorityName(priorityId) {
-    return Notepad.PRIORITIES[priorityId].name;
-  }
 }
 
 Notepad.PRIORITIES = {
@@ -139,9 +165,14 @@ Notepad.PRIORITIES = {
 
 const notepad = new Notepad(initialNotes);
 
-const list = document.querySelector('.note-list');
+const refs = {
+  editor: document.querySelector('.note-editor'),
+  editor_label: document.querySelector('.note-editor__label'),
+  list: document.querySelector('.note-list'),
+  filter: document.querySelector('.search-form__input'),
+};
 
-const createListItem = ({id, title, body, priority, note}) => {
+const createListItem = ({ id, title, body, priority }) => {
   const listItem = document.createElement('li');
   listItem.classList.add('note-list__item');
   listItem.dataset.id = id;
@@ -186,7 +217,7 @@ const createListItem = ({id, title, body, priority, note}) => {
 
   const notePriority = document.createElement('span');
   notePriority.classList.add('note__priority');
-  notePriority.textContent = `Priority: ${Notepad.getPriorityName(priority)}`
+  notePriority.textContent = `Priority: ${Notepad.getPriorityName(priority)}`;
 
   const footerNoteSection = document.createElement('section');
   footerNoteSection.classList.add('note__section');
@@ -220,15 +251,52 @@ const createListItem = ({id, title, body, priority, note}) => {
   editButton.appendChild(editMaterialIcons);
   deleteButton.appendChild(deleteMaterialIcons);
 
-console.log(listItem);
+  console.log(listItem);
   return listItem;
 };
 
-
 const renderNoteList = (listRef, notes) => {
-const listItem = initialNotes.map(item => createListItem(item));
+  const listItem = initialNotes.map(note => createListItem(note));
 
-listRef.append(...listItem);
-}
+  listRef.innerHTML = '';
+  listRef.append(...listItem);
+};
+renderNoteList(refs.list, initialNotes);
 
-renderNoteList(list, initialNotes);
+const addItemToList = (listRef, note) => {
+  const listItem = createListItem(note);
+
+  listRef.appendChild(listItem);
+};
+
+const handleEditorSubmit = event => {
+  event.preventDefault();
+
+  const [input] = event.currentTarget.elements;
+  const inputValue = input.value;
+
+  if (inputValue.trim() === '') {
+    return alert('Ты ничего не ввел!');
+  }
+
+  const savedItem = notepad.save(inputValue);
+
+  addItemToList(refs.list, savedItem);
+
+  event.currentTarget.reset();
+};
+
+const handleFilterChange = event => {
+  console.log(event.target.value);
+
+  const filteredItems = notepad.filter(event.target.value);
+
+  addItemToList(refs.list, filteredItems);
+};
+
+addItemToList(refs.list, initialNotes);
+
+// Listeners
+refs.editor.addEventListener('submit', handleEditorSubmit);
+refs.editor_label.addEventListener('submit', handleEditorSubmit);
+refs.filter.addEventListener('input', handleFilterChange);
