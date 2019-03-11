@@ -167,7 +167,7 @@ Notepad.PRIORITIES = {
 const notepad = new Notepad(initialNotes);
 //----------------------------refs-----------------------------
 const refs = {
-  editor: document.querySelector('.note-editor__label'),
+  editor: document.querySelector('.note-editor'),
   list: document.querySelector('.note-list'),
   filter: document.querySelector('.search-form__input'),
 };
@@ -272,6 +272,8 @@ const addItemToList = (listRef, note) => {
 };
 //---------------------------------------------Хендлер для добавления эл-тов----------------
 const handleEditorSubmit = event => {
+
+  console.log(event.target.value);
   event.preventDefault(); //отменяем дейст браузера по умолчанию(перезагр страницы)
 
   const [input] = event.currentTarget.elements;
@@ -289,11 +291,12 @@ const handleEditorSubmit = event => {
 };
 //-----------------------------------------------Хендлер для фильтрации----------------
 const handleFilterChange = event => {
-  console.log(event.target.value);
+  //console.log(event.target.value);
 
   const filteredItems = notepad.filter(event.target.value);
 
   renderNoteList(refs.list, filteredItems);
+
 };
 
 renderNoteList(refs.list, initialNotes);
@@ -302,3 +305,5 @@ renderNoteList(refs.list, initialNotes);
 refs.editor.addEventListener('submit', handleEditorSubmit);
 //refs.editor_label.addEventListener('submit', handleEditorSubmit);
 refs.filter.addEventListener('input', handleFilterChange);
+
+
