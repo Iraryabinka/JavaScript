@@ -50,7 +50,7 @@ const initialNotes = [
     priority: PRIORITY_TYPES.LOW,
   },
 ];
-
+//--------------------------------------------class-------------------------------------
 class Notepad {
   constructor({ notes }) {
     this._notes = [];
@@ -82,6 +82,7 @@ class Notepad {
 
     return newNote;
   }
+
   filter(query = '') {
     return this._notes.filter(note =>
       note.body.toLowerCase().includes(query.toLowerCase())
@@ -164,14 +165,13 @@ Notepad.PRIORITIES = {
 };
 
 const notepad = new Notepad(initialNotes);
-
+//----------------------------refs-----------------------------
 const refs = {
-  editor: document.querySelector('.note-editor'),
-  editor_label: document.querySelector('.note-editor__label'),
+  editor: document.querySelector('.note-editor__label'),
   list: document.querySelector('.note-list'),
   filter: document.querySelector('.search-form__input'),
 };
-
+//-------------------------------UI------------------------------
 const createListItem = ({ id, title, body, priority }) => {
   const listItem = document.createElement('li');
   listItem.classList.add('note-list__item');
@@ -256,26 +256,28 @@ const createListItem = ({ id, title, body, priority }) => {
 };
 
 const renderNoteList = (listRef, notes) => {
-  const listItem = initialNotes.map(note => createListItem(note));
+  const listItem = notes.map(note => createListItem(note));
 
   listRef.innerHTML = '';
   listRef.append(...listItem);
 };
-renderNoteList(refs.list, initialNotes);
+ // add our initialNotes to List
+
+//---------------------------------------------------------------------------
 
 const addItemToList = (listRef, note) => {
   const listItem = createListItem(note);
 
-  listRef.appendChild(listItem);
+  listRef.appendChild(listItem); //
 };
-
+//---------------------------------------------Хендлер для добавления эл-тов----------------
 const handleEditorSubmit = event => {
-  event.preventDefault();
+  event.preventDefault(); //отменяем дейст браузера по умолчанию(перезагр страницы)
 
   const [input] = event.currentTarget.elements;
   const inputValue = input.value;
 
-  if (inputValue.trim() === '') {
+  if (inputValue.trim() === '') {          //trim очищает строки от пробелов
     return alert('Ты ничего не ввел!');
   }
 
@@ -283,20 +285,20 @@ const handleEditorSubmit = event => {
 
   addItemToList(refs.list, savedItem);
 
-  event.currentTarget.reset();
+  event.currentTarget.reset();   // сброс полей после добавления заметки
 };
-
+//-----------------------------------------------Хендлер для фильтрации----------------
 const handleFilterChange = event => {
   console.log(event.target.value);
 
   const filteredItems = notepad.filter(event.target.value);
 
-  addItemToList(refs.list, filteredItems);
+  renderNoteList(refs.list, filteredItems);
 };
 
-addItemToList(refs.list, initialNotes);
+renderNoteList(refs.list, initialNotes);
 
-// Listeners
+// -----------------------------------------------------------Listeners
 refs.editor.addEventListener('submit', handleEditorSubmit);
-refs.editor_label.addEventListener('submit', handleEditorSubmit);
+//refs.editor_label.addEventListener('submit', handleEditorSubmit);
 refs.filter.addEventListener('input', handleFilterChange);
