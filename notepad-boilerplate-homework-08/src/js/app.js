@@ -303,7 +303,7 @@ const handleEditorSubmit = event => {
 
   addItemToList(refs.list, savedItem);
 
-  event.currentTarget.reset(); // сброс полей после добавления заметки
+  event.currentTarget.reset(); // сброс полей после добавления зам-ки
 };
 
 //-----------------------------------------------Хендлер для фильтрации----------------
