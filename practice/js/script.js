@@ -176,7 +176,7 @@ console.log(user)*/
   как свойства объекта в формате "имя":"кол-во задач"
 */
 
-const tweets = [
+/*const tweets = [
   { id: '000', likes: 5, tags: ['js', 'nodejs'] },
   { id: '001', likes: 2, tags: ['html', 'css'] },
   { id: '002', likes: 17, tags: ['html', 'js', 'nodejs'] },
@@ -192,3 +192,29 @@ const getTags = tweets =>
   }, []);
 
 console.log(getTags(tweets));
+*/
+const refs = {
+filter: document.querySelector(".search-form__input")}
+
+const handleFilterChange = evt => {
+ 
+ const serchedItem = notepad.filterNotesByQuery(evt.target.value);
+ listRef.innerHTML = "";
+ renderNoteList(listRef, serchedItem);
+};
+
+const serch = evt => {
+ //const target = evt.target;
+ evt.target.oninput = handleFilterChange(;
+};
+
+filter.addEventListener("focus", serch);
+
+
+const listRef = document.querySelector(".note-list");
+
+const renderNoteList = (listRef, notes) => {
+ const renderListItem = notes.map(note => createListItem(note));
+ listRef.append(...renderListItem);
+ return listRef;
+};

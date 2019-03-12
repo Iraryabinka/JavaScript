@@ -50,7 +50,7 @@ const initialNotes = [
     priority: PRIORITY_TYPES.LOW,
   },
 ];
-//--------------------------------------------class-------------------------------------
+//--------------------------------------------class-------------
 class Notepad {
   constructor({ notes }) {
     this._notes = [];
@@ -71,11 +71,12 @@ class Notepad {
       .toString(36)
       .substring(2, 15);
 
-  save(text) {
+  save(title, text) {
     const newNote = {
       id: Notepad.generateUniqueId(),
-      title: text,
+      title: title,
       body: text,
+      priority: PRIORITY_TYPES.LOW,
     };
 
     this._notes.push(newNote);
@@ -83,16 +84,21 @@ class Notepad {
     return newNote;
   }
 
-  filter(query = '') {
-    return this._notes.filter(note =>
+  /*filter(query = '') {
+    const filteredNotes = [];
+
+    this._notes.filter(note =>
       note.body.toLowerCase().includes(query.toLowerCase())
     );
-  }
-  filter(query = '') {
-    return this._notes.filter(note =>
+
+    this._notes.filter(note =>
       note.title.toLowerCase().includes(query.toLowerCase())
-    );
-  }
+
+    if (hasQueryInTitle || hasQueryInBody) {
+      filteredNotes.push(note);
+    }
+    return filteredNotes;
+  }}*/
 
   findNoteById(id) {
     for (const note of this._notes) {
@@ -104,7 +110,8 @@ class Notepad {
   saveNote(note) {
     this.notes.push(note);
   }
-  deleteNote(id) {
+
+  /*deleteNote(id) {
     for (let i = 0; i < this.notes.length; i += 1) {
       const note = this._notes[i];
 
@@ -113,7 +120,13 @@ class Notepad {
         return;
       }
     }
+  }*/
+
+  deleteNotes(id) {
+    this._notes = this._notes.filter(note => note.id !== id);
+    return this._notes;
   }
+
   updateNoteContent(id, { field, value }) {
     const note = this.findNoteById(id);
 
@@ -128,6 +141,7 @@ class Notepad {
 
     note.priority = priority;
   }
+
   filterNotesByQuery(query) {
     const filteredNotes = [];
 
@@ -146,6 +160,7 @@ class Notepad {
     }
     return filteredNotes;
   }
+
   filterNotesByPriority(priority) {
     const filtredByPriorityNotes = [];
 
@@ -171,7 +186,7 @@ const refs = {
   list: document.querySelector('.note-list'),
   filter: document.querySelector('.search-form__input'),
 };
-//-------------------------------UI------------------------------
+//-------------------------------UI----------------------------
 const createListItem = ({ id, title, body, priority }) => {
   const listItem = document.createElement('li');
   listItem.classList.add('note-list__item');
@@ -261,49 +276,74 @@ const renderNoteList = (listRef, notes) => {
   listRef.innerHTML = '';
   listRef.append(...listItem);
 };
- // add our initialNotes to List
+// add our initialNotes to List
 
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------
 
 const addItemToList = (listRef, note) => {
   const listItem = createListItem(note);
 
   listRef.appendChild(listItem); //
 };
-//---------------------------------------------Хендлер для добавления эл-тов----------------
+//---------------------------------Хендлер для добавления эл-тов------------------
 const handleEditorSubmit = event => {
-
-  console.log(event.target.value);
+  //console.log(event.target.value);  //value - то что ввели в форму(текст заметки)
   event.preventDefault(); //отменяем дейст браузера по умолчанию(перезагр страницы)
 
-  const [input] = event.currentTarget.elements;
-  const inputValue = input.value;
+  const [input_body, input_title] = event.currentTarget.elements;
+  const inputValueBody = input_body.value;
+  const inputValueTitle = input_title.value;
 
-  if (inputValue.trim() === '') {          //trim очищает строки от пробелов
+  if (inputValueBody.trim() === '' || inputValueTitle.trim() === '') {
+    //trim очищает строки от пробелов
     return alert('Ты ничего не ввел!');
   }
 
-  const savedItem = notepad.save(inputValue);
+  const savedItem = notepad.save(inputValueBody, inputValueTitle);
 
   addItemToList(refs.list, savedItem);
 
-  event.currentTarget.reset();   // сброс полей после добавления заметки
+  event.currentTarget.reset(); // сброс полей после добавления заметки
 };
+
 //-----------------------------------------------Хендлер для фильтрации----------------
 const handleFilterChange = event => {
   //console.log(event.target.value);
 
-  const filteredItems = notepad.filter(event.target.value);
+  const filteredItems = notepad.filterNotesByQuery(event.target.value);
 
+  refs.list.innerHTML = ' ';
   renderNoteList(refs.list, filteredItems);
-
 };
 
 renderNoteList(refs.list, initialNotes);
 
-// -----------------------------------------------------------Listeners
+//-----------------------------------------------Хендлер для удаления----------------
+const removeListItem = element => {
+  const parentListItem = element.closest('.note-list__item'); //находим родителя
+  const id = parentListItem.dataset.id; //путь к id заметки
+
+  notepad.deleteNotes(id); // передаем в ф-ю id
+
+  removeListItem.remove(); //удаляем заметку из ul
+};
+
+const handleremoveListItem = ({ target }) => {
+  console.log(event.target.nodeName);
+
+  if (target.nodeName !== 'BUTTON') return; // если нажатый эл не кнопка - выйти
+
+  const action = target.dataset.action;
+  console.log(action);
+
+  switch (action) {
+    case ICON_TYPES.DELETE:
+      removeListItem(target);
+      break;
+  }
+};
+
+// -----------------------------------------------------------Listeners----------------
 refs.editor.addEventListener('submit', handleEditorSubmit);
-//refs.editor_label.addEventListener('submit', handleEditorSubmit);
 refs.filter.addEventListener('input', handleFilterChange);
-
-
+refs.list.addEventListener('click', handleremoveListItem);
