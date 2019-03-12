@@ -84,21 +84,13 @@ class Notepad {
     return newNote;
   }
 
-  /*filter(query = '') {
-    const filteredNotes = [];
-
-    this._notes.filter(note =>
-      note.body.toLowerCase().includes(query.toLowerCase())
-    );
-
-    this._notes.filter(note =>
-      note.title.toLowerCase().includes(query.toLowerCase())
-
-    if (hasQueryInTitle || hasQueryInBody) {
-      filteredNotes.push(note);
-    }
-    return filteredNotes;
-  }}*/
+  filter(query = '') {
+		return this._notes.filter(
+			(note) =>
+			note.body.toLowerCase().includes(query.toLowerCase()) ||
+			note.title.toLowerCase().includes(query.toLowerCase())
+		);
+	}
 
   findNoteById(id) {
     for (const note of this._notes) {
@@ -122,10 +114,9 @@ class Notepad {
     }
   }*/
 
-  deleteNotes(id) {
-    this._notes = this._notes.filter(note => note.id !== id);
-    return this._notes;
-  }
+  delete(id) {
+		this._notes = this._notes.filter(note => note.id !== id);
+	}
 
   updateNoteContent(id, { field, value }) {
     const note = this.findNoteById(id);
@@ -142,7 +133,7 @@ class Notepad {
     note.priority = priority;
   }
 
-  filterNotesByQuery(query) {
+  /*filterNotesByQuery(query) {
     const filteredNotes = [];
 
     for (const note of this._notes) {
@@ -159,7 +150,7 @@ class Notepad {
       }
     }
     return filteredNotes;
-  }
+  }*/
 
   filterNotesByPriority(priority) {
     const filtredByPriorityNotes = [];
@@ -310,10 +301,10 @@ const handleEditorSubmit = event => {
 const handleFilterChange = event => {
   //console.log(event.target.value);
 
-  const filteredItems = notepad.filterNotesByQuery(event.target.value);
+  const filteredItems = notepad.filter(event.target.value);
 
   refs.list.innerHTML = ' ';
-  renderNoteList(refs.list, filteredItems);
+  renderListItems(refs.list, filteredItems);
 };
 
 renderNoteList(refs.list, initialNotes);
@@ -323,23 +314,27 @@ const removeListItem = element => {
   const parentListItem = element.closest('.note-list__item'); //находим родителя
   const id = parentListItem.dataset.id; //путь к id заметки
 
-  notepad.deleteNotes(id); // передаем в ф-ю id
+  notepad.delete(id); // передаем в ф-ю id
 
-  removeListItem.remove(); //удаляем заметку из ul
+  parentListItem.remove(); //удаляем заметку из ul
+  console.table(notepad._notes);
 };
 
 const handleremoveListItem = ({ target }) => {
-  console.log(event.target.nodeName);
+  //console.log(event.target.nodeName);
 
-  if (target.nodeName !== 'BUTTON') return; // если нажатый эл не кнопка - выйти
+if (target.nodeName !== 'I') return; // если нажатый эл не кнопка - выйти
 
   const action = target.dataset.action;
-  console.log(action);
+  //console.log(action);
 
   switch (action) {
-    case ICON_TYPES.DELETE:
+    case NOTE_ACTIONS.DELETE:
       removeListItem(target);
       break;
+
+    default:
+      alert('invalid action!');
   }
 };
 
