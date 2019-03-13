@@ -85,12 +85,12 @@ class Notepad {
   }
 
   filter(query = '') {
-		return this._notes.filter(
-			(note) =>
-			note.body.toLowerCase().includes(query.toLowerCase()) ||
-			note.title.toLowerCase().includes(query.toLowerCase())
-		);
-	}
+    return this._notes.filter(
+      note =>
+        note.body.toLowerCase().includes(query.toLowerCase()) ||
+        note.title.toLowerCase().includes(query.toLowerCase())
+    );
+  }
 
   findNoteById(id) {
     for (const note of this._notes) {
@@ -115,8 +115,8 @@ class Notepad {
   }*/
 
   delete(id) {
-		this._notes = this._notes.filter(note => note.id !== id);
-	}
+    this._notes = this._notes.filter(note => note.id !== id);
+  }
 
   updateNoteContent(id, { field, value }) {
     const note = this.findNoteById(id);
@@ -241,6 +241,7 @@ const createListItem = ({ id, title, body, priority }) => {
   deleteButton.classList.add('action');
   //deleteButton.textContent = 'delete';
   deleteButton.dataset.action = NOTE_ACTIONS.DELETE;
+  deleteButton.dataset.action_id = id;
 
   const deleteMaterialIcons = document.createElement('i');
   deleteMaterialIcons.classList.add('material-icons');
@@ -307,10 +308,8 @@ const handleFilterChange = event => {
   renderListItems(refs.list, filteredItems);
 };
 
-renderNoteList(refs.list, initialNotes);
-
 //-----------------------------------------------Хендлер для удаления----------------
-const removeListItem = element => {
+/*const removeListItem = element => {
   const parentListItem = element.closest('.note-list__item'); //находим родителя
   const id = parentListItem.dataset.id; //путь к id заметки
 
@@ -336,9 +335,24 @@ if (target.nodeName !== 'I') return; // если нажатый эл не кно
     default:
       alert('invalid action!');
   }
-};
+};*/
 
+Array.from(document.querySelectorAll('[data-action = "delete-note"]')).forEach(
+  el => {
+    //создаем массив из эл и перебираем  его
+
+    el.addEventListener('click', function(e) {
+      //добавл листнер
+      e.preventDefault();
+
+      document.querySelector(`[data-id = '${this.dataset.action_id}'`);
+      notepad.delete(this.dataset.action_id).remove();
+    });
+  }
+);
+
+renderNoteList(refs.list, initialNotes);
 // -----------------------------------------------------------Listeners----------------
 refs.editor.addEventListener('submit', handleEditorSubmit);
 refs.filter.addEventListener('input', handleFilterChange);
-refs.list.addEventListener('click', handleremoveListItem);
+
