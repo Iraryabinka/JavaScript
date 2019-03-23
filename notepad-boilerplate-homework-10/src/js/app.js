@@ -2,18 +2,14 @@
 
 import initialNotes from '../assets/notes.json';
 import {PRIORITY_TYPES, ICON_TYPES, NOTE_ACTIONS} from '../js/utils/constants';
-import {createListItem, renderNoteList, addItemToList} from '../js/utils/view';
+import {createListItem, renderListItems, addItemToList} from '../js/utils/view';
 import Notepad from '../js/utils/notepad-model';
 
 //--------------------------------------------class-------------
 
-Notepad.PRIORITIES = {
-  0: { id: 0, value: 0, name: 'Low' },
-  1: { id: 1, value: 1, name: 'Normal' },
-  2: { id: 2, value: 2, name: 'High' },
-};
  
 export const notepad = new Notepad(initialNotes);
+
 //----------------------------refs-----------------------------
 const refs = {
   editor: document.querySelector('.note-editor'),
@@ -45,38 +41,44 @@ const handleEditorSubmit = event => {
 };
 
 //-----------------------------------------------Хендлер для фильтрации----------------
-const handleFilterChange = event => {
+const handleFilterChange = (event) => {
   //console.log(event.target.value);
-
   const filteredItems = notepad.filter(event.target.value);
-
   refs.list.innerHTML = ' ';
   renderListItems(refs.list, filteredItems);
 };
-
 //-----------------------------------------------Хендлер для удаления----------------
-/*const removeListItem = element => {
-  const parentListItem = element.closest('.note-list__item'); //находим родителя
-  const id = parentListItem.dataset.id; //путь к id заметки
-  notepad.delete(id); // передаем в ф-ю id
-  parentListItem.remove(); //удаляем заметку из ul
-  console.table(notepad._notes);
-};
-const handleremoveListItem = ({ target }) => {
-  //console.log(event.target.nodeName);
-if (target.nodeName !== 'I') return; // если нажатый эл не кнопка - выйти
-  const action = target.dataset.action;
-  //console.log(action);
-  switch (action) {
-    case NOTE_ACTIONS.DELETE:
-      removeListItem(target);
-      break;
-    default:
-      alert('invalid action!');
-  }
-};*/
+const removeListItem = element => {
+  const parentListItem = element.closest('.note-list__item');
+  const id = parentListItem.dataset.id;
 
-Array.from(document.querySelectorAll('[data-action = "delete-note"]')).forEach(
+  notepad.delete(id);
+  parentListItem.remove();
+  console.table(notepad._notes);
+
+};
+
+const handleListClick = ({
+  target
+}) => {
+
+  if (target.nodeName !== 'I') return;
+
+  const action = target.dataset.action;
+
+  switch (action) {
+      case NOTE_ACTIONS.DELETE:
+          console.log('delete');
+          removeListItem(target);
+
+          break;
+
+      default:
+          console.log('invalid action!');
+  }
+};
+
+/*Array.from(document.querySelectorAll('[data-action = "delete-note"]')).forEach(
   el => {
     //создаем массив из эл и перебираем  его
 
@@ -89,8 +91,9 @@ Array.from(document.querySelectorAll('[data-action = "delete-note"]')).forEach(
     });
   }
 );
-
-renderNoteList(refs.list, initialNotes);
+*/
+renderListItems(refs.list, initialNotes);
 // -----------------------------------------------------------Listeners----------------
 refs.editor.addEventListener('submit', handleEditorSubmit);
 refs.filter.addEventListener('input', handleFilterChange);
+refs.list.addEventListener('click', handleListClick);

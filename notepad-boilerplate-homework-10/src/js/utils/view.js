@@ -1,106 +1,128 @@
-
 import {
-    PRIORITY_TYPES, ICON_TYPES, NOTE_ACTIONS
-} from '../utils/constants';
+    NOTE_ACTIONS,
+    ICON_TYPES,
+    PRIORITY_TYPES
+} from './constants.js';
 
-import Notepad from '../utils/notepad-model';
+import Notepad from './notepad-model';
 
-export const createListItem = ({ id, title, body, priority }) => {
-    const listItem = document.createElement('li');
-    listItem.classList.add('note-list__item');
-    listItem.dataset.id = id;
-  
-    const noteContainer = document.createElement('div');
-    noteContainer.classList.add('note');
-  
-    const noteContant = document.createElement('div');
-    noteContant.classList.add('note__content');
-  
+export const getRefs = () => ({
+    list: document.querySelector('.note-list'),
+    editor: document.querySelector('.note-editor'),
+    filter: document.querySelector('.search-form__input')
+});
+
+const createNoteContent = (notes) => {
+    const noteContent = document.createElement('div');
+    noteContent.classList.add('note__content');
+
     const noteTitle = document.createElement('h2');
     noteTitle.classList.add('note__title');
-    noteTitle.textContent = title;
-  
+    noteTitle.textContent = notes.title;
+
     const noteBody = document.createElement('p');
     noteBody.classList.add('note__body');
-    noteBody.textContent = body;
-  
-    const noteFooter = document.createElement('footer');
-    noteFooter.classList.add('note__footer');
-  
-    const noteSection = document.createElement('section');
-    noteSection.classList.add('note__section');
-  
-    const moreButton = document.createElement('button');
-    moreButton.classList.add('action');
-    //moreButton.textContent = 'expand_more';
-    moreButton.dataset.action = NOTE_ACTIONS.DECREASE_PRIORITY;
-  
-    const moreMaterialIcons = document.createElement('i');
-    moreMaterialIcons.classList.add('material-icons');
-    moreMaterialIcons.textContent = ICON_TYPES.ARROW_DOWN;
-  
-    const lessButton = document.createElement('button');
-    lessButton.classList.add('action');
-    //lessButton.textContent = 'expand_less';
-    lessButton.dataset.action = NOTE_ACTIONS.INCREASE_PRIORITY;
-  
-    const lessMaterialIcons = document.createElement('i');
-    lessMaterialIcons.classList.add('material-icons');
-    lessMaterialIcons.textContent = ICON_TYPES.ARROW_UP;
-  
+    noteBody.textContent = notes.body;
+
+    noteContent.append(noteTitle, noteBody);
+
+    return noteContent;
+};
+
+const createActionButton1 = (notes) => {
+    const section1 = document.createElement('section');
+    section1.classList.add('note__section');
+
+    const decreasePrioritybutton = document.createElement('button');
+    decreasePrioritybutton.classList.add('action');
+    decreasePrioritybutton.dataset.action = NOTE_ACTIONS.DECREASE_PRIORITY;
+
+    const iconExpandless = document.createElement('i');
+    iconExpandless.classList.add('material-icons', 'action__icon');
+    iconExpandless.dataset.action = ICON_TYPES.ARROW_DOWN;
+    iconExpandless.textContent = 'expand_less';
+
+    const increasePrioritybutton = document.createElement('button');
+    increasePrioritybutton.classList.add('action');
+    increasePrioritybutton.dataset.action = NOTE_ACTIONS.INCREASE_PRIORITY;
+
+    const iconExpandmore = document.createElement('i');
+    iconExpandmore.classList.add('material-icons', 'action__icon');
+    iconExpandmore.dataset.action = ICON_TYPES.ARROW_UP;
+    iconExpandmore.textContent = 'expand_more';
+
+
     const notePriority = document.createElement('span');
     notePriority.classList.add('note__priority');
-    notePriority.textContent = `Priority: ${Notepad.getPriorityName(priority)}`;
-  
-    const footerNoteSection = document.createElement('section');
-    footerNoteSection.classList.add('note__section');
-  
-    const editButton = document.createElement('button');
-    editButton.classList.add('action');
-    //editButton.textContent = 'edit';
-    editButton.dataset.action = NOTE_ACTIONS.EDIT;
-  
-    const editMaterialIcons = document.createElement('i');
-    editMaterialIcons.classList.add('material-icons');
-    editMaterialIcons.textContent = ICON_TYPES.EDIT;
-  
-    const deleteButton = document.createElement('button');
-    deleteButton.classList.add('action');
-    //deleteButton.textContent = 'delete';
-    deleteButton.dataset.action = NOTE_ACTIONS.DELETE;
-    deleteButton.dataset.action_id = id;
-  
-    const deleteMaterialIcons = document.createElement('i');
-    deleteMaterialIcons.classList.add('material-icons');
-    deleteMaterialIcons.textContent = ICON_TYPES.DELETE;
-  
-    listItem.append(noteContainer, noteFooter);
-    noteContainer.append(noteContant, noteFooter);
-    noteContant.append(noteTitle, noteBody);
-    noteFooter.append(noteSection, footerNoteSection);
-    noteSection.append(moreButton, lessButton, notePriority);
-    moreButton.appendChild(moreMaterialIcons);
-    lessButton.appendChild(lessMaterialIcons);
-    footerNoteSection.append(editButton, deleteButton);
-    editButton.appendChild(editMaterialIcons);
-    deleteButton.appendChild(deleteMaterialIcons);
-  
-    console.log(listItem);
-    return listItem;
-}
+    notePriority.textContent = Notepad.getPriorityName(notes.priority);
+    decreasePrioritybutton.appendChild(iconExpandless);
+    increasePrioritybutton.appendChild(iconExpandmore);
 
-export const renderNoteList = (listRef, notes) => {
-    const listItem = notes.map(note => createListItem(note));
-  
+    section1.append(decreasePrioritybutton, increasePrioritybutton, notePriority);
+
+    return section1;
+};
+const createActionButton2 = () => {
+    const section2 = document.createElement('section');
+    section2.classList.add('note__section');
+
+    const editNotebutton = document.createElement('button');
+    editNotebutton.classList.add('action');
+    editNotebutton.dataset.action = NOTE_ACTIONS.EDIT;
+
+    const iconEdit = document.createElement('i');
+    iconEdit.classList.add('material-icons', 'action__icon');
+    iconEdit.dataset.action = NOTE_ACTIONS.EDIT;
+    iconEdit.textContent = 'edit';
+
+    const deliteNotebutton = document.createElement('button');
+    deliteNotebutton.classList.add('action');
+    deliteNotebutton.dataset.action = NOTE_ACTIONS.DELETE;
+
+    const iconDelite = document.createElement('i');
+    iconDelite.classList.add('material-icons', 'action__icon');
+    iconDelite.dataset.action = NOTE_ACTIONS.DELETE;
+    iconDelite.textContent = 'delete';
+
+    editNotebutton.appendChild(iconEdit);
+    deliteNotebutton.appendChild(iconDelite);
+
+    section2.append(editNotebutton, deliteNotebutton);
+
+    return section2;
+};
+const createNoteFooter = (notes) => {
+    const noteFooter = document.createElement('footer');
+    noteFooter.classList.add('note__footer');
+
+    noteFooter.append(createActionButton1(notes), createActionButton2());
+
+    return noteFooter;
+};
+
+const createListItem = (notes) => {
+    const listItem = document.createElement('li');
+    listItem.classList.add('note-list__item');
+    listItem.dataset.id = notes.id;
+
+    const globalNote = document.createElement('div');
+    globalNote.classList.add('note');
+
+    listItem.appendChild(globalNote);
+
+    globalNote.append(createNoteContent(notes), createNoteFooter(notes));
+    return listItem;
+};
+
+export const renderListItems = (listRef, notes) => {
+    const listItems = notes.map(note => createListItem(note));
+
     listRef.innerHTML = '';
-    listRef.append(...listItem);
-  };
-  // add our initialNotes to List
-  
-  //--------------------------------------------------------------
-  
-  export const addItemToList = (listRef, note) => {
+    listRef.append(...listItems);
+};
+
+export const addItemToList = (listRef, note) => {
     const listItem = createListItem(note);
-  
-    listRef.appendChild(listItem); //
-  };
+
+    listRef.appendChild(listItem);
+};
