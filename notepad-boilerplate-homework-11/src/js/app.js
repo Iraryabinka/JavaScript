@@ -3,7 +3,7 @@ import Micromodal from 'micromodal';
 import { Notyf } from 'notyf';
 
 import initialNotes from '../assets/notes.json';
-import {PRIORITY_TYPES, NOTE_ACTIONS, NOTIFICATION_MESSAGES} from '../js/utils/constants';
+import {PRIORITY_TYPES, NOTE_ACTIONS, NOTIFICATION_MESSAGES, PRIORITIES} from '../js/utils/constants';
 import {createListItem, renderListItems, addItemToList} from '../js/utils/view';
 import Notepad from '../js/utils/notepad-model';
 import notesTemplate from '../templates/notes.hbs';

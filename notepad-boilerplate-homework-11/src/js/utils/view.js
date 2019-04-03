@@ -1,7 +1,8 @@
 import {
     NOTE_ACTIONS,
-    ICON_TYPES,
-    PRIORITY_TYPES
+    PRIORITIES,
+    PRIORITY_TYPES,
+    NOTIFICATION_MESSAGES
 } from './constants.js';
 import noteTemplate from '../../templates/notes.hbs';
 import Notepad from './notepad-model';
@@ -16,7 +17,7 @@ export const renderListItems = (listRef, notes) => {
         const priorityName = Notepad.getPriorityName(note.priority);
         return createListItem({
             ...note,
-            priority: priorityName
+            priority: priorityName,
         })
     }).join('');
     listRef.innerHTML = '';
