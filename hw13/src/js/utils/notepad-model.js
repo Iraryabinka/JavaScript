@@ -21,9 +21,9 @@ export default class Notepad {
           priority: Notepad.getPriorityName(PRIORITY_TYPES.LOW),
         };
         this._notes.push(newItem);
-        localStorage.setItem('notes', JSON.stringify(this.notes));
+        //localStorage.setItem('notes', JSON.stringify(this.notes));
         resolve(newItem);
-      }, 0);
+      }, 300);
     });
   }
 
@@ -32,7 +32,7 @@ export default class Notepad {
       setTimeout(() => {
         this._notes = this._notes.filter(note => note.id !== id);
 
-        localStorage.setItem('notes', JSON.stringify(this._notes));
+        //localStorage.setItem('notes', JSON.stringify(this._notes));
         resolve(this._notes);
       }, 0);
     });

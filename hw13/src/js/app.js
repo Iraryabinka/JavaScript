@@ -2,21 +2,14 @@
 import Micromodal from 'micromodal'; 
 import { Notyf } from 'notyf';
 
-//import initialNotes from '../assets/notes.json';
+import initialNotes from '../assets/notes.json';
 import {PRIORITY_TYPES, NOTE_ACTIONS, NOTIFICATION_MESSAGES} from '../js/utils/constants';
 import {createListItem, renderListItems, addItemToList} from '../js/utils/view';
 import Notepad from '../js/utils/notepad-model';
 import notesTemplate from '../templates/notes.hbs';
 import 'notyf/notyf.min.css';
 
-//------------localStarge--------------------------------
-let savedNotes = localStorage.getItem('notes');
 
-if (savedNotes) {
-	savedNotes = JSON.parse(savedNotes);
-}
-
-const initialNotes = savedNotes ? savedNotes : [];
 //---------------------------class-----------------------
 const notepad = new Notepad(initialNotes);
 const notyf = new Notyf();
