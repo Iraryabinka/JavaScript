@@ -12,20 +12,30 @@ export default class Notepad {
   }
 
   save(text1, text2) {
-    const newItem = {
-      id: shortid.generate(),
-      title: text1,
-      body: text2,
-      priority: PRIORITY_TYPES.LOW,
-    };
-
-    this._notes.push(newItem);
-
-    return newItem;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const newItem = {
+          id: shortid.generate(),
+          title: text1,
+          body: text2,
+          priority: Notepad.getPriorityName(PRIORITY_TYPES.LOW),
+        };
+        this._notes.push(newItem);
+        localStorage.setItem('notes', JSON.stringify(this.notes));
+        resolve(newItem);
+      }, 300);
+    });
   }
 
   delete(id) {
-    this._notes = this._notes.filter(note => note.id !== id);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this._notes = this._notes.filter(note => note.id !== id);
+
+        localStorage.setItem('notes', JSON.stringify(this._notes));
+        resolve(this._notes);
+      }, 300);
+    });
   }
 
   filter(query = '') {
