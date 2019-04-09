@@ -11,6 +11,7 @@ import 'notyf/notyf.min.css';
 
 //------------localStarge--------------------------------
 let savedNotes = localStorage.getItem('notes');
+
 if (savedNotes) {
 	savedNotes = JSON.parse(savedNotes);
 }
@@ -46,7 +47,7 @@ refs.list.insertAdjacentHTML('beforeend', markup);*/
 //-----------------Хендлер для добавления эл-тов------------------
 const handleEditorSubmit = event => {
   //console.log(event.target.value);  //value - то что ввели в форму(текст заметки)
-  event.preventDefault(); //отменяем дейст браузера по умолчанию(перезагр страницы)
+  //event.preventDefault(); //отменяем дейст браузера по умолчанию(перезагр страницы)
 
   const [input_body, input_title] = event.currentTarget.elements;
   const inputValueBody = input_body.value;

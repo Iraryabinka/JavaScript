@@ -23,7 +23,7 @@ export default class Notepad {
         this._notes.push(newItem);
         localStorage.setItem('notes', JSON.stringify(this.notes));
         resolve(newItem);
-      }, 300);
+      }, 0);
     });
   }
 
@@ -34,7 +34,7 @@ export default class Notepad {
 
         localStorage.setItem('notes', JSON.stringify(this._notes));
         resolve(this._notes);
-      }, 300);
+      }, 0);
     });
   }
 
